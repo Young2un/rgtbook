@@ -86,3 +86,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  -ms-overflow-style: none; /* IE, Edge */
+  overflow: auto;
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
