@@ -3,7 +3,7 @@ import AddBookButton from "./_components/AddBookButton";
 import BookList from "./_components/BookList";
 import BookListPagination from "./_components/BookListPagination";
 
-export default async function BooksPage({
+export default async function Page({
   searchParams,
 }: {
   searchParams: Record<string, string | undefined>;
@@ -21,7 +21,7 @@ export default async function BooksPage({
     page < totalPages ? `/books?page=${page + 1}&search=${search}` : null;
 
   return (
-    <main className="flex flex-col items-center p-20 ">
+    <main className="flex flex-col items-center">
       <div className="w-full max-w-3xl">
         <SearchBar search={search} />
         <div className="flex justify-end">
