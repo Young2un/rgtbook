@@ -1,17 +1,13 @@
+import { Book } from "@/type";
 import Image from "next/image";
 import Link from "next/link";
 import MeatballButton from "./MeatballButton";
 
-interface Book {
-  id: string;
-  title: string;
-  author: string;
-  image_url: string;
-  stock: number;
-  sales_count: number;
-}
-
-export default function BookList({ books }: { books: Book[] }) {
+export default function BookList({
+  books,
+}: {
+  books: Omit<Book, "description">[];
+}) {
   return (
     <div className="w-full max-w-3xl">
       {books.length === 0 ? (
