@@ -4,9 +4,6 @@ import SearchBar from "./_components/SearchBar";
 
 // 메인페이지
 export default async function Home() {
-  const response = await fetch("http://localhost:3000/api/books");
-  const data = await response.json();
-  console.log(data);
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       <div className="w-6/12 max-w-3xl mb-60">
