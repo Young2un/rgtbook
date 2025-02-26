@@ -8,9 +8,9 @@ export default async function Home() {
   const data = await response.json();
   console.log(data);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <div className="w-6/12">
-        <SearchBar />
+    <main className="flex min-h-screen flex-col items-center justify-center">
+      <div className="w-6/12 max-w-3xl mb-60">
+        <SearchBar search="" />
         <Link href="/books">
           <Button className="w-full text-lg py-7">📚 전체 책 목록 보기</Button>
         </Link>
