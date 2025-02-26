@@ -24,7 +24,7 @@ export default function DropdownMenu({ bookId, onClose }: DropdownMenuProps) {
   }, [onClose]);
 
   const handleEditClick = () => {
-    router.push(`books/edit/${bookId}`);
+    router.push(`/books/edit/${bookId}`);
     onClose();
   };
 
