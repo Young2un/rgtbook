@@ -4,9 +4,14 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "shopping-phinf.pstatic.net", // ✅ 허용할 이미지 도메인 추가
+        hostname: "shopping-phinf.pstatic.net",
+      },
+      {
+        protocol: "https",
+        hostname: new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname,
       },
     ],
   },
 };
+
 export default nextConfig;
