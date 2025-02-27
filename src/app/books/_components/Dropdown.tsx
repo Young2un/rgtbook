@@ -31,10 +31,9 @@ export default function DropdownMenu({ bookId, onClose }: DropdownMenuProps) {
         alert("삭제 실패! 다시 시도해주세요.");
         return;
       }
-
       alert("삭제 완료!");
-      router.refresh();
       router.push("/books");
+      router.refresh();
       onClose();
     } catch (error) {
       alert("오류가 발생했습니다. 다시 시도해주세요.");

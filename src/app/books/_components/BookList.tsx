@@ -31,7 +31,7 @@ export default function BookList({
             >
               <Link
                 href={`/books/${book.id}`}
-                className="flex gap-4 items-center"
+                className="flex gap-4 items-center w-full"
               >
                 <Image
                   src={book.image_url}
