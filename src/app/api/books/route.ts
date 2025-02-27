@@ -15,7 +15,8 @@ export async function GET(req: Request) {
   let query = supabase
     .from("books")
     .select("*", { count: "exact" })
-    .range(start, end);
+    .range(start, end)
+    .order("title");
 
   if (search) {
     query = query.or(`title.ilike.%${search}%,author.ilike.%${search}%`);

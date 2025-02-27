@@ -10,7 +10,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-// 클라이언트 환경에서만 실행되도록 설정
 const isFileList = (value: unknown): value is FileList => {
   return typeof window !== "undefined" && value instanceof FileList;
 };
