@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <div className="shadow h-96 mb-10">
+      <div className="h-96 mb-10 border-b">
         <div className="flex justify-center font-black text-2xl mb-6 ">
           책 기본 정보
         </div>
