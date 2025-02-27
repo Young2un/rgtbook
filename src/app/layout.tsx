@@ -20,12 +20,27 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <header className="relative flex h-[60px] justify-center items-center">
-          <Link href={"/"}>
-            <Image height={40} src={Logo} alt="logo" className="mt-20"></Image>
-          </Link>
-        </header>
-        {children}
+        <div className="flex min-h-screen flex-col">
+          <header className="flex h-28 w-full justify-center items-center shadow mb-8">
+            <Link href="/" className="">
+              <Image height={40} src={Logo} alt="logo"></Image>
+            </Link>
+          </header>
+          <main className="flex-1 max-w-4xl mx-auto w-full px-4 h-">
+            {children}
+          </main>
+          <footer className="bg-gray-800 text-white py-6 mt-10">
+            <div className="max-w-4xl mx-auto text-center">
+              <p className="text-sm">
+                &copy; {new Date().getFullYear()} 온라인 서점. RGT BOOK 관리자
+                페이지
+              </p>
+              <p className="text-xs mt-2 text-gray-400">
+                문의: support@bookstore.com
+              </p>
+            </div>
+          </footer>
+        </div>
       </body>
     </html>
   );

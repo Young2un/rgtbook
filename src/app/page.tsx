@@ -1,11 +1,17 @@
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import SearchBar from "./_components/SearchBar";
+
 // 메인페이지
 export default async function Home() {
-  const response = await fetch("http://localhost:3000/api/books");
-  const data = await response.json();
-  console.log(data);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      home
-    </main>
+    <div className="flex justify-center mt-20">
+      <div className="w-3/5 max-w-3xl mb-60">
+        <SearchBar search="" />
+        <Link href="/books">
+          <Button className="w-full text-lg py-7">📚 전체 책 목록 보기</Button>
+        </Link>
+      </div>
+    </div>
   );
 }
