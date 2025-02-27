@@ -11,9 +11,10 @@ export default async function Page({
   const search = searchParams.search || "";
   const page = parseInt(searchParams.page || "1", 10);
 
-  const response = await fetch(`/api/books?search=${search}&page=${page}`, {
-    cache: "no-store",
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/books?search=${search}&page=${page}`,
+    { cache: "no-store" }
+  );
   const { books, totalPages } = await response.json();
   const prevPage = page > 1 ? `/books?page=${page - 1}&search=${search}` : null;
   const nextPage =
