@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const bookSchema = z.object({
+  id: z.string(),
   title: z.string().min(1, "책 제목을 입력해주세요."),
   author: z.string().min(1, "저자를 입력해주세요."),
   price: z.preprocess(
@@ -22,51 +23,43 @@ const bookSchema = z.object({
     z.number().int().positive("재고는 1 이상이어야 합니다.")
   ),
   description: z.string().min(1, "책 설명을 입력해주세요."),
-  image: z.instanceof(FileList).refine((fileList) => fileList.length > 0, {
-    message: "이미지를 업로드해주세요.",
-  }),
 });
 
 type BookFormValues = z.infer<typeof bookSchema>;
 
-export default function CreateBookForm() {
+interface EditBookFormProps {
+  book: BookFormValues;
+}
+
+export default function EditBookForm({ book }: EditBookFormProps) {
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<BookFormValues>({
     resolver: zodResolver(bookSchema),
+    defaultValues: book,
   });
-
-  const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter();
 
   const onSubmit = async (data: BookFormValues) => {
     setErrorMessage("");
 
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("author", data.author);
-    formData.append("price", data.price.toString());
-    formData.append("stock", data.stock.toString());
-    if (data.description) formData.append("description", data.description);
-    if (data.image?.length) formData.append("image", data.image[0]); // 이미지 파일 추가
-
-    const response = await fetch("/api/books", {
-      method: "POST",
-      body: formData,
+    const response = await fetch(`/api/books/${book.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
 
-    const result = await response.json();
-
     if (!response.ok) {
-      setErrorMessage(result.message || "책 추가 중 오류 발생");
+      const result = await response.json();
+      setErrorMessage(result.message || "책 수정 중 오류 발생");
       return;
     }
 
-    alert("책이 성공적으로 추가되었습니다!");
-    reset();
+    alert("책 정보가 수정되었습니다!");
     router.refresh();
     router.push("/books");
   };
@@ -76,7 +69,9 @@ export default function CreateBookForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-lg mx-auto p-4 space-y-4"
     >
-      <h2 className="text-2xl font-bold text-center">새 책 추가</h2>
+      <h2 className="text-2xl font-bold text-center">책 수정</h2>
+
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
       <div>
         <Label htmlFor="title">책 제목</Label>
@@ -115,25 +110,8 @@ export default function CreateBookForm() {
         <Textarea id="description" {...register("description")} />
       </div>
 
-      <div>
-        <Label htmlFor="image">책 표지 업로드</Label>
-        <Input
-          className="md:text-sm"
-          type="file"
-          id="image"
-          accept="image/jpeg, image/png, image/gif, image/webp"
-          {...register("image", { required: "이미지를 업로드해주세요." })}
-        />
-
-        {errors.image && (
-          <p className="text-red-500 text-sm ">{errors.image.message}</p>
-        )}
-      </div>
-
-      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-
       <Button type="submit" disabled={isSubmitting} className="w-full">
-        {isSubmitting ? "등록 중..." : "저장하기"}
+        {isSubmitting ? "수정 중..." : "수정 완료"}
       </Button>
     </form>
   );

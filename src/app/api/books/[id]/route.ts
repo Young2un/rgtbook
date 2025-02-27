@@ -1,6 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-
 export async function GET(
   req: Request,
   { params }: { params: { id: string } }
@@ -18,8 +17,22 @@ export async function GET(
 
   return NextResponse.json(data, { status: 200 });
 }
+export async function PUT(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  const bookId = params.id;
+  const body = await req.json();
+  const supabase = createClient();
 
-export async function PUT() {}
+  const { error } = await supabase.from("books").update(body).eq("id", bookId);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 400 });
+  }
+
+  return NextResponse.json({ message: "책 정보 수정 완료" });
+}
 
 export async function OPTIONS() {
   return NextResponse.json({}, { status: 200 });
