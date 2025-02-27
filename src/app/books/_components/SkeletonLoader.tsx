@@ -10,7 +10,7 @@ export default function SkeletonLoader() {
             className="flex items-center gap-4 p-4 border rounded-lg shadow-sm bg-white"
           >
             {/* 책 이미지 스켈레톤 */}
-            <Skeleton className="h-24 w-20 rounded-md" />
+            <Skeleton className="h-20 w-20 rounded-md" />
 
             {/* 텍스트 스켈레톤 */}
             <div className="flex flex-col space-y-3 w-full">
