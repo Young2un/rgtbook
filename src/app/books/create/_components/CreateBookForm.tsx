@@ -73,8 +73,8 @@ export default function CreateBookForm() {
 
       alert("책이 성공적으로 추가되었습니다!");
       reset();
-      router.refresh();
       router.push("/books");
+      router.refresh();
     } catch (error) {
       console.error("네트워크 오류:", error);
       setErrorMessage("네트워크 오류가 발생했습니다.");

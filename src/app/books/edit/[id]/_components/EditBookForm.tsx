@@ -60,8 +60,8 @@ export default function EditBookForm({ book }: EditBookFormProps) {
     }
 
     alert("책 정보가 수정되었습니다!");
-    router.refresh();
     router.push("/books");
+    router.refresh();
   };
 
   return (
