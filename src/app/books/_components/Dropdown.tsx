@@ -33,6 +33,7 @@ export default function DropdownMenu({ bookId, onClose }: DropdownMenuProps) {
       }
 
       alert("삭제 완료!");
+      router.refresh();
       router.push("/books");
       onClose();
     } catch (error) {
