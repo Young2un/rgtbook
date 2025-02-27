@@ -1,5 +1,9 @@
-// 책추가페이지
-const Page = () => {
-  return <div>책추가 Page</div>;
-};
-export default Page;
+import CreateBookForm from "./_components/CreateBookForm";
+
+export default function Page() {
+  return (
+    <div className="container mx-auto mt-10">
+      <CreateBookForm />
+    </div>
+  );
+}
