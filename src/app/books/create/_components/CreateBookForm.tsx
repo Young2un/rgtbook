@@ -10,6 +10,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+// 클라이언트 환경에서만 실행되도록 설정
+const isFileList = (value: unknown): value is FileList => {
+  return typeof window !== "undefined" && value instanceof FileList;
+};
+
 const bookSchema = z.object({
   title: z.string().min(1, "책 제목을 입력해주세요."),
   author: z.string().min(1, "저자를 입력해주세요."),
@@ -22,7 +27,7 @@ const bookSchema = z.object({
     z.number().int().positive("재고는 1 이상이어야 합니다.")
   ),
   description: z.string().min(1, "책 설명을 입력해주세요."),
-  image: z.instanceof(FileList).refine((fileList) => fileList.length > 0, {
+  image: z.any().refine((file) => isFileList(file) && file.length > 0, {
     message: "이미지를 업로드해주세요.",
   }),
 });
@@ -51,24 +56,30 @@ export default function CreateBookForm() {
     formData.append("price", data.price.toString());
     formData.append("stock", data.stock.toString());
     if (data.description) formData.append("description", data.description);
-    if (data.image?.length) formData.append("image", data.image[0]); // 이미지 파일 추가
-
-    const response = await fetch("/api/books", {
-      method: "POST",
-      body: formData,
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      setErrorMessage(result.message || "책 추가 중 오류 발생");
-      return;
+    if (isFileList(data.image) && data.image.length > 0) {
+      formData.append("image", data.image[0]);
     }
 
-    alert("책이 성공적으로 추가되었습니다!");
-    reset();
-    router.refresh();
-    router.push("/books");
+    try {
+      const response = await fetch("/api/books", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const result = await response.json();
+        setErrorMessage(result.message || "책 추가 중 오류 발생");
+        return;
+      }
+
+      alert("책이 성공적으로 추가되었습니다!");
+      reset();
+      router.refresh();
+      router.push("/books");
+    } catch (error) {
+      console.error("네트워크 오류:", error);
+      setErrorMessage("네트워크 오류가 발생했습니다.");
+    }
   };
 
   return (
@@ -113,6 +124,9 @@ export default function CreateBookForm() {
       <div>
         <Label htmlFor="description">책 설명</Label>
         <Textarea id="description" {...register("description")} />
+        {errors.description && (
+          <p className="text-red-500 text-sm">{errors.description.message}</p>
+        )}
       </div>
 
       <div>
@@ -125,8 +139,8 @@ export default function CreateBookForm() {
           {...register("image", { required: "이미지를 업로드해주세요." })}
         />
 
-        {errors.image && (
-          <p className="text-red-500 text-sm ">{errors.image.message}</p>
+        {errors.title?.message && (
+          <p className="text-red-500 text-sm">{String(errors.title.message)}</p>
         )}
       </div>
 
