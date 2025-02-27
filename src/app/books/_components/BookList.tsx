@@ -4,10 +4,18 @@ import Link from "next/link";
 import MeatballButton from "./MeatballButton";
 
 export default function BookList({
-  books,
+  books = [],
 }: {
   books: Omit<Book, "description">[];
 }) {
+  if (!books || !Array.isArray(books)) {
+    return (
+      <p className="text-center text-gray-500 pt-10 text-lg">
+        검색 결과가 없습니다.
+      </p>
+    );
+  }
+
   return (
     <div className="w-full max-w-3xl">
       {books.length === 0 ? (
