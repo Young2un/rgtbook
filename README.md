@@ -33,7 +33,7 @@ RGTBOOK은 온라인 서점 관리 웹 애플리케이션으로, 책 목록 조�
 ## 🛠️ 사용 기술 스택
 
 ### 📌 프론트엔드
-- **Next.js 14 (App Router 사용)**
+- **Next.js 14.2.5 (App Router 사용)**
 - **TypeScript** - 타입 안정성 확보
 - **Tailwind CSS** - 빠르고 효율적인 스타일링
 - **shadcn/ui** - UI 컴포넌트 활용
